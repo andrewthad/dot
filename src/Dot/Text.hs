@@ -10,6 +10,7 @@ import Data.Text (Text)
 import Data.Text.Lazy.Builder (Builder)
 import qualified Data.Text.Lazy.Builder as Builder
 import qualified Data.Text.Lazy as LText
+import qualified Data.Text as Text
 import Data.Monoid
 import Dot.Types
 
@@ -35,7 +36,11 @@ builder (DotGraph strictness directionality mid statements) = mempty
   <> "}"
 
 encodeId :: Id -> Builder
-encodeId (Id theId) = Builder.fromText theId
+encodeId (Id theId) = case Text.uncons theId of
+  Just (c,_) -> if not (c >= '0' && c <= '9') && Text.all (\c -> (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') theId
+    then Builder.fromText theId
+    else "\"" <> Builder.fromText (Text.replace "\"" "\\\"" theId) <> "\""
+  Nothing -> "\"\""
 
 encodeNodeId :: NodeId -> Builder
 encodeNodeId (NodeId theId mport) =

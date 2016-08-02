@@ -5,14 +5,11 @@ resolver: lts-6.9
 # will not be run. This is useful for tweaking upstream packages.
 packages:
 - '.'
-- location:
-    git: 'https://github.com/andrewthad/impure-containers'
-    commit: 'd44f5c1f98e4dc0c3010d815e8a55cd31e85fd62'
-  extra-dep: true
 
 # Dependency packages to be pulled from upstream that are not in the resolver
 # (e.g., acme-missiles-0.3)
-extra-deps: []
+extra-deps:
+  - 'impure-containers-0.3.1'
 
 # Override default flag values for local packages and extra-deps
 flags: {}
