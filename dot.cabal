@@ -1,5 +1,5 @@
 name:                dot
-version:             0.2.0
+version:             0.2.1
 synopsis:            Data types and encoding for graphviz dot files
 description:         Please see README.md
 homepage:            https://github.com/andrewthad/dot#readme
