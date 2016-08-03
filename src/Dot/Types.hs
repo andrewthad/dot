@@ -41,10 +41,6 @@ data NodeId = NodeId Id (Maybe Port)
 instance IsString NodeId where
   fromString str = NodeId (fromString str) Nothing
 
--- | Stole this from semigroups. Remove it once GHC 8.0 gains
---   widespread adoption.
-data NonEmpty a = a :| [a]
-
 data ListTwo a = ListTwo
   { listTwoFirst :: a
   , listTwoSecond :: a
