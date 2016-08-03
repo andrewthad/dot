@@ -34,8 +34,8 @@ toDotGraph directionality vertexAttrs edgeAttrs g =
              (edgeAttrs vFrom vTo e)
           ]
   strictness = case directionality of
-    Undirected -> NonStrict
-    Directed -> Strict
+    Undirected -> Strict
+    Directed -> NonStrict
 
 -- | This is a more convenient variant of 'toDotGraph' that just labels
 -- all of the nodes and edges. It does not color or style anything.
