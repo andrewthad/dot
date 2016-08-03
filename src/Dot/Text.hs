@@ -39,7 +39,13 @@ encodeId :: Id -> Builder
 encodeId (Id theId) = case Text.uncons theId of
   Just (c,_) -> if not (c >= '0' && c <= '9') && Text.all (\c -> (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') theId
     then Builder.fromText theId
-    else "\"" <> Builder.fromText (Text.replace "\"" "\\\"" theId) <> "\""
+    else "\""
+      <> Builder.fromText
+         ( Text.replace "\"" "\\\""
+         $ Text.replace "\n" "\\n"
+         $ Text.replace "\\" "\\\\"
+         $ theId )
+      <> "\""
   Nothing -> "\"\""
 
 encodeNodeId :: NodeId -> Builder
