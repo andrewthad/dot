@@ -44,7 +44,8 @@ encodeId (Id theId) = case Text.uncons theId of
          ( Text.replace "\"" "\\\""
          $ Text.replace "\n" "\\n"
          $ Text.replace "\\" "\\\\"
-         $ theId )
+         $ theId
+         )
       <> "\""
   Nothing -> "\"\""
 
