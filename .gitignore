@@ -33,5 +33,6 @@ playground/auth.txt
 **/*.dump-hi
 tags
 TAGS
+*.ghc*
 
 docs/db/unthreat

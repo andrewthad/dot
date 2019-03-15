@@ -4,15 +4,17 @@ module Dot.Text
   ( encode
   , encodeLazy
   , builder
+  , encodeToFile
   ) where
 
+import Data.Monoid
 import Data.Text (Text)
 import Data.Text.Lazy.Builder (Builder)
-import qualified Data.Text.Lazy.Builder as Builder
-import qualified Data.Text.Lazy as LText
-import qualified Data.Text as Text
-import Data.Monoid
 import Dot.Types
+import qualified Data.Text as Text
+import qualified Data.Text.IO as TIO
+import qualified Data.Text.Lazy as LText
+import qualified Data.Text.Lazy.Builder as Builder
 
 levelSpaces :: Int
 levelSpaces = 2
@@ -25,6 +27,9 @@ encode = LText.toStrict . encodeLazy
 
 encodeLazy :: DotGraph -> LText.Text
 encodeLazy = Builder.toLazyText . builder
+
+encodeToFile :: FilePath -> DotGraph -> IO ()
+encodeToFile fp dg = TIO.writeFile fp (encode dg)
 
 builder :: DotGraph -> Builder
 builder (DotGraph strictness directionality mid statements) = mempty
@@ -133,7 +138,6 @@ encodeGraphDirectionality x = case x of
   Directed -> "digraph "
   Undirected -> "graph "
 
-
 example :: DotGraph
 example = DotGraph Strict Directed (Just "foobar")
   [ StatementNode $ NodeStatement "a1"
@@ -145,4 +149,3 @@ example = DotGraph Strict Directed (Just "foobar")
     [ Attribute "color" "red"
     ]
   ]
-
