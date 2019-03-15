@@ -1,0 +1,5 @@
+strict digraph foobar {
+  a1 [shape=box,color=blue];
+  a2 [];
+  a1 -> a2 -> a3 [color=red];
+}
