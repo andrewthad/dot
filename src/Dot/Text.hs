@@ -54,6 +54,20 @@ encodeId (Id theId) = case Text.uncons theId of
       <> "\""
   Nothing -> "\"\""
 
+encodeHtmlId :: Id -> Builder
+encodeHtmlId (Id theId) = case Text.uncons theId of
+  Just (c,_) -> if not (c >= '0' && c <= '9') && Text.all (\c -> (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') theId
+    then "<" <> Builder.fromText theId <> ">"
+    else "<"
+      <> Builder.fromText
+         ( Text.replace "\"" "\\\""
+         $ Text.replace "\n" "\\n"
+         $ Text.replace "\\" "\\\\"
+         $ theId
+         )
+      <> ">"
+  Nothing -> "\"\""
+
 encodeNodeId :: NodeId -> Builder
 encodeNodeId (NodeId theId mport) =
   encodeId theId <> maybe mempty encodePort mport
@@ -132,6 +146,7 @@ encodeAttributes [] = " [];\n"
 
 encodeAttribute :: Attribute -> Builder
 encodeAttribute (Attribute attrId valId) = encodeId attrId <> "=" <> encodeId valId
+encodeAttribute (HtmlAttribute attrId valId) = encodeId attrId <> "=" <> encodeHtmlId valId
 
 encodeGraphDirectionality :: Directionality -> Builder
 encodeGraphDirectionality x = case x of

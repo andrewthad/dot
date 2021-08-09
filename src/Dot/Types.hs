@@ -67,6 +67,7 @@ data AttributeStatement = AttributeStatement Element [Attribute]
   deriving (Show,Read)
 
 data Attribute = Attribute Id Id
+               | HtmlAttribute Id Id
   deriving (Show,Read)
 
 data NodeStatement = NodeStatement NodeId [Attribute]
